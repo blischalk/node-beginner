@@ -1,4 +1,5 @@
 var http = require("http");
+var url = require("url");
 
 /*
 http.createServer(function(request, response) {
@@ -8,10 +9,12 @@ http.createServer(function(request, response) {
 }).listen(8888);
 */
 
-exports.start = function start() {
+exports.start = function start(route, handle) {
 
   http.createServer(function(request, response){
+    var pathname = url.parse(request.url).pathname;
     console.log("Request received.");
+    route(handle, pathname);
     response.writeHead(200, {"Content-Type": "text/plain"});
     response.write("Hello World");
     response.end();
